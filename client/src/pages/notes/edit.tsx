@@ -98,7 +98,7 @@ const EditNote: React.FC = () => {
     try {
       const updatedNote = await notesApi.updateNote(id, formData);
       updateNote(id, updatedNote);
-      navigate(`/notes/${id}`);
+      navigate(`/`);
     } catch (err) {
       setSubmitError("Failed to update note. Please try again.");
       console.error(err);
