@@ -1,5 +1,10 @@
-import axiosInstance from '@/utils/axios';
-import { Note, CreateNoteInput, UpdateNoteInput, ApiResponse } from '@/types/note.types';
+import axiosInstance from "@/utils/axios";
+import {
+  Note,
+  CreateNoteInput,
+  UpdateNoteInput,
+  ApiResponse,
+} from "@/types/note.types";
 
 export const notesApi = {
   /**
@@ -7,10 +12,10 @@ export const notesApi = {
    */
   fetchNotes: async (): Promise<Note[]> => {
     try {
-      const response = await axiosInstance.get<ApiResponse<Note[]>>('/notes');
+      const response = await axiosInstance.get<ApiResponse<Note[]>>("/notes");
       return response.data.data || [];
     } catch (error) {
-      console.error('Failed to fetch notes:', error);
+      console.error("Failed to fetch notes:", error);
       throw error;
     }
   },
@@ -20,13 +25,15 @@ export const notesApi = {
    */
   fetchNoteById: async (id: string): Promise<Note> => {
     try {
-      const response = await axiosInstance.get<ApiResponse<Note>>(`/notes/${id}`);
+      const response = await axiosInstance.get<ApiResponse<Note>>(
+        `/notes/${id}`,
+      );
       if (!response.data.data) {
-        throw new Error('Note not found');
+        throw new Error("Note not found");
       }
       return response.data.data;
     } catch (error) {
-      console.error('Failed to fetch note:', error);
+      console.error("Failed to fetch note:", error);
       throw error;
     }
   },
@@ -37,15 +44,15 @@ export const notesApi = {
   createNote: async (input: CreateNoteInput): Promise<Note> => {
     try {
       const response = await axiosInstance.post<ApiResponse<Note>>(
-        '/notes',
-        input
+        "/notes",
+        input,
       );
       if (!response.data.data) {
-        throw new Error('Failed to create note');
+        throw new Error("Failed to create note");
       }
       return response.data.data;
     } catch (error) {
-      console.error('Failed to create note:', error);
+      console.error("Failed to create note:", error);
       throw error;
     }
   },
@@ -57,14 +64,14 @@ export const notesApi = {
     try {
       const response = await axiosInstance.put<ApiResponse<Note>>(
         `/notes/${id}`,
-        input
+        input,
       );
       if (!response.data.data) {
-        throw new Error('Failed to update note');
+        throw new Error("Failed to update note");
       }
       return response.data.data;
     } catch (error) {
-      console.error('Failed to update note:', error);
+      console.error("Failed to update note:", error);
       throw error;
     }
   },
@@ -76,7 +83,7 @@ export const notesApi = {
     try {
       await axiosInstance.delete(`/notes/${id}`);
     } catch (error) {
-      console.error('Failed to delete note:', error);
+      console.error("Failed to delete note:", error);
       throw error;
     }
   },

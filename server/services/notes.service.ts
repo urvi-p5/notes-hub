@@ -1,5 +1,5 @@
-import { query } from '../db';
-import { Note, CreateNoteInput, UpdateNoteInput } from '../types/note.types';
+import { query } from "../db";
+import { Note, CreateNoteInput, UpdateNoteInput } from "../types/note.types";
 
 export const notesService = {
   /**
@@ -7,7 +7,7 @@ export const notesService = {
    */
   getAllNotes: async (): Promise<Note[]> => {
     const result = await query(
-      'SELECT id, title, content, created_at as "createdAt", updated_at as "updatedAt" FROM notes ORDER BY updated_at DESC'
+      'SELECT id, title, content, created_at as "createdAt", updated_at as "updatedAt" FROM notes ORDER BY updated_at DESC',
     );
     return result.rows as Note[];
   },
@@ -18,7 +18,7 @@ export const notesService = {
   getNoteById: async (id: string): Promise<Note | null> => {
     const result = await query(
       'SELECT id, title, content, created_at as "createdAt", updated_at as "updatedAt" FROM notes WHERE id = $1',
-      [id]
+      [id],
     );
     return (result.rows[0] as Note) || null;
   },
@@ -30,7 +30,7 @@ export const notesService = {
     const result = await query(
       `INSERT INTO notes (title, content) VALUES ($1, $2)
        RETURNING id, title, content, created_at as "createdAt", updated_at as "updatedAt"`,
-      [input.title, input.content]
+      [input.title, input.content],
     );
     return result.rows[0] as Note;
   },
@@ -38,7 +38,10 @@ export const notesService = {
   /**
    * Update an existing note
    */
-  updateNote: async (id: string, input: UpdateNoteInput): Promise<Note | null> => {
+  updateNote: async (
+    id: string,
+    input: UpdateNoteInput,
+  ): Promise<Note | null> => {
     // Build dynamic update query
     const updates: string[] = [];
     const values: any[] = [];
@@ -64,7 +67,7 @@ export const notesService = {
 
     const query_string = `
       UPDATE notes
-      SET ${updates.join(', ')}
+      SET ${updates.join(", ")}
       WHERE id = $${paramCount}
       RETURNING id, title, content, created_at as "createdAt", updated_at as "updatedAt"
     `;
@@ -77,7 +80,7 @@ export const notesService = {
    * Delete a note by ID
    */
   deleteNote: async (id: string): Promise<boolean> => {
-    const result = await query('DELETE FROM notes WHERE id = $1', [id]);
+    const result = await query("DELETE FROM notes WHERE id = $1", [id]);
     return result.rowCount ? result.rowCount > 0 : false;
   },
 };

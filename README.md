@@ -17,6 +17,7 @@ A stunning, modern, fully-animated notes management application with a beautiful
 ## 🏗️ Architecture
 
 ### Frontend Stack
+
 - **React 18** with TypeScript (strict mode)
 - **Vite** for fast development and bundling
 - **Tailwind CSS** for styling
@@ -27,12 +28,14 @@ A stunning, modern, fully-animated notes management application with a beautiful
 - **Lucide React** for beautiful icons
 
 ### Backend Stack
+
 - **Node.js** with TypeScript
 - **Express.js** for HTTP API
 - **PostgreSQL** for data persistence
 - **Zod** for request validation
 
 ### Database
+
 - **PostgreSQL** with automatic schema initialization
 - UUID primary keys for robust identification
 - Timestamps for audit tracking
@@ -98,13 +101,15 @@ code/
 1. **Clone or download the project**
 
 2. **Install dependencies**
+
    ```bash
    pnpm install
    ```
 
 3. **Set up PostgreSQL**
-   
+
    Create a PostgreSQL database and user:
+
    ```sql
    CREATE USER postgres WITH PASSWORD 'postgres';
    CREATE DATABASE notes_hub OWNER postgres;
@@ -114,11 +119,13 @@ code/
 4. **Configure environment variables**
 
    Copy `.env.example` to `.env` and update with your PostgreSQL credentials:
+
    ```bash
    cp .env.example .env
    ```
 
    Edit `.env`:
+
    ```env
    # Database Configuration
    DB_HOST=localhost
@@ -135,6 +142,7 @@ code/
    ```
 
 5. **Start the development server**
+
    ```bash
    pnpm dev
    ```
@@ -148,18 +156,21 @@ All API endpoints are prefixed with `/api` and return JSON responses.
 ### Notes Endpoints
 
 #### Get All Notes
+
 ```
 GET /api/notes
 Response: { success: boolean, data: Note[] }
 ```
 
 #### Get Single Note
+
 ```
 GET /api/notes/:id
 Response: { success: boolean, data: Note }
 ```
 
 #### Create Note
+
 ```
 POST /api/notes
 Body: { title: string, content: string }
@@ -167,6 +178,7 @@ Response: { success: boolean, data: Note }
 ```
 
 #### Update Note
+
 ```
 PUT /api/notes/:id
 Body: { title?: string, content?: string }
@@ -174,6 +186,7 @@ Response: { success: boolean, data: Note }
 ```
 
 #### Delete Note
+
 ```
 DELETE /api/notes/:id
 Response: { success: boolean }
@@ -182,6 +195,7 @@ Response: { success: boolean }
 ### Response Format
 
 All responses follow this structure:
+
 ```typescript
 interface ApiResponse<T> {
   success: boolean;
@@ -194,6 +208,7 @@ interface ApiResponse<T> {
 ## 🗄️ Database Schema
 
 ### notes table
+
 ```sql
 CREATE TABLE notes (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -205,13 +220,16 @@ CREATE TABLE notes (
 ```
 
 **Indexes:**
+
 - `idx_notes_created_at` - For sorting by creation date
 - `idx_notes_updated_at` - For sorting by update date
 
 ## 🎨 UI Components
 
 ### Button
+
 Custom animated button with multiple variants and sizes.
+
 ```typescript
 <Button variant="primary" size="lg" isLoading={false}>
   Create Note
@@ -222,7 +240,9 @@ Custom animated button with multiple variants and sizes.
 **Sizes:** sm, md, lg
 
 ### Input
+
 Input field with label, error display, and validation feedback.
+
 ```typescript
 <Input
   label="Note Title"
@@ -233,7 +253,9 @@ Input field with label, error display, and validation feedback.
 ```
 
 ### Modal
+
 Reusable modal dialog with backdrop.
+
 ```typescript
 <Modal
   isOpen={isOpen}
@@ -245,12 +267,15 @@ Reusable modal dialog with backdrop.
 ```
 
 ### NoteCard
+
 Animated card displaying note preview with action buttons.
 
 ### Navbar
+
 Sticky navigation bar with logo and menu items.
 
 ### Sidebar
+
 Responsive sidebar for mobile navigation.
 
 ## 🔐 Form Validation
@@ -291,17 +316,20 @@ pnpm test
 ```
 
 ### Build Output
+
 - **Frontend**: `dist/spa/` - Vite SPA build
 - **Server**: `dist/server/` - Express server build
 
 ## 📦 Production Deployment
 
 ### Build
+
 ```bash
 pnpm build
 ```
 
 ### Deploy Backend
+
 ```bash
 # Start production server
 pnpm start
@@ -310,7 +338,9 @@ pnpm start
 The application will be available at the configured port.
 
 ### Environment Variables for Production
+
 Update `.env` with production credentials:
+
 - Secure PostgreSQL credentials
 - Production API base URL
 - Any other production settings
@@ -318,44 +348,51 @@ Update `.env` with production credentials:
 ## 🐛 Troubleshooting
 
 ### Database Connection Error
+
 ```
 Error: connect ECONNREFUSED 127.0.0.1:5432
 ```
+
 **Solution:** Ensure PostgreSQL is running and credentials in `.env` are correct.
 
 ### Failed to load notes
+
 **Solution:** Check the browser console (F12) and server logs for detailed errors.
 
 ### CORS Issues
+
 The server is configured with CORS enabled for development. For production, update CORS settings in `server/index.ts`.
 
 ## 📖 Code Examples
 
 ### Creating a Note
+
 ```typescript
-import { notesApi } from '@/services/notes.api';
-import { useNotesStore } from '@/store/notes.store';
+import { notesApi } from "@/services/notes.api";
+import { useNotesStore } from "@/store/notes.store";
 
 const { addNote } = useNotesStore();
 
 const note = await notesApi.createNote({
-  title: 'My Note',
-  content: 'Content here'
+  title: "My Note",
+  content: "Content here",
 });
 
 addNote(note);
 ```
 
 ### Fetching Notes
+
 ```typescript
-import { notesApi } from '@/services/notes.api';
+import { notesApi } from "@/services/notes.api";
 
 const notes = await notesApi.fetchNotes();
 ```
 
 ### State Management
+
 ```typescript
-import { useNotesStore } from '@/store/notes.store';
+import { useNotesStore } from "@/store/notes.store";
 
 const { notes, loading, error, setLoading } = useNotesStore();
 ```
@@ -363,6 +400,7 @@ const { notes, loading, error, setLoading } = useNotesStore();
 ## 🎯 Key Features Explained
 
 ### Animations
+
 - Framer Motion handles all UI animations
 - Smooth page transitions
 - Hover effects on cards and buttons
@@ -370,19 +408,23 @@ const { notes, loading, error, setLoading } = useNotesStore();
 - Modal slide-in animations
 
 ### State Management
+
 Zustand provides:
+
 - Centralized notes state
 - Loading and error states
 - Action methods for CRUD operations
 - Minimal boilerplate
 
 ### Type Safety
+
 - Full TypeScript strict mode
 - Shared types between frontend and backend
 - Zod runtime validation
 - Type-safe API responses
 
 ### Error Handling
+
 - Try-catch blocks in API calls
 - User-friendly error messages
 - Retry mechanisms for failed operations

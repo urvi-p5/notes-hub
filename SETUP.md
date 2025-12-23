@@ -85,26 +85,32 @@ docker run --name postgres-notes \
 ### Using psql Command Line
 
 1. **Connect to PostgreSQL**
+
    ```bash
    psql -U postgres
    ```
+
    (You may be prompted for the password you set during installation)
 
 2. **Create the database**
+
    ```sql
    CREATE DATABASE notes_hub;
    ```
 
 3. **Create user (if not using default postgres user)**
+
    ```sql
    CREATE USER notes_user WITH PASSWORD 'secure_password_here';
    GRANT ALL PRIVILEGES ON DATABASE notes_hub TO notes_user;
    ```
 
 4. **Verify the database**
+
    ```sql
    \l
    ```
+
    You should see `notes_hub` in the list.
 
 5. **Exit psql**
@@ -179,6 +185,7 @@ PING_MESSAGE=pong
 ### Example Configurations
 
 **If using Docker PostgreSQL:**
+
 ```env
 DB_HOST=localhost
 DB_PORT=5432
@@ -188,6 +195,7 @@ DB_NAME=notes_hub
 ```
 
 **If using custom user:**
+
 ```env
 DB_HOST=localhost
 DB_PORT=5432
@@ -197,6 +205,7 @@ DB_NAME=notes_hub
 ```
 
 **If PostgreSQL is on different machine:**
+
 ```env
 DB_HOST=192.168.1.100
 DB_PORT=5432
@@ -216,6 +225,7 @@ pnpm dev
 ```
 
 The application will be available at:
+
 - **Local**: http://localhost:8080
 - **Network**: http://your-ip:8080
 
@@ -242,6 +252,7 @@ The error about database initialization is normal if PostgreSQL isn't ready yet.
 Open http://localhost:8080 in your browser.
 
 You should see:
+
 - **Notes Hub** logo in the top left
 - **Navigation menu** with Dashboard and Create Note links
 - **"No notes yet"** empty state message
@@ -255,6 +266,7 @@ Once the frontend loads, click "Create Your First Note" and:
 3. Click "Create Note"
 
 If successful:
+
 - You'll be redirected to the dashboard
 - Your note will appear in the list
 - The database connection is working!
@@ -262,21 +274,25 @@ If successful:
 ### 3. Test All Features
 
 **Dashboard:**
+
 - View list of notes
 - Click note cards to view details
 - Edit notes
 - Delete notes
 
 **Create Note:**
+
 - Fill form and create a new note
 - Validation errors appear for invalid input
 
 **View Note:**
+
 - See full note content
 - Timestamp information
 - Edit or delete buttons
 
 **Edit Note:**
+
 - Modify title and content
 - Save changes
 - See updated timestamp
@@ -290,6 +306,7 @@ pnpm build
 ```
 
 This creates:
+
 - Frontend build in `dist/spa/`
 - Server build in `dist/server/`
 
@@ -308,14 +325,16 @@ The server will start on port 8080 (or the port specified in your config).
 **Error:** `connect ECONNREFUSED 127.0.0.1:5432`
 
 **Solutions:**
+
 1. Check PostgreSQL is running:
+
    ```bash
    # macOS
    brew services list | grep postgresql
-   
+
    # Linux
    sudo systemctl status postgresql
-   
+
    # Windows
    # Check Services app for PostgreSQL service
    ```
@@ -323,15 +342,17 @@ The server will start on port 8080 (or the port specified in your config).
 2. Verify credentials in `.env` file match your setup
 
 3. Test connection with psql:
+
    ```bash
    psql -h localhost -U postgres -d notes_hub
    ```
 
 4. Restart PostgreSQL:
+
    ```bash
    # macOS
    brew services restart postgresql@15
-   
+
    # Linux
    sudo systemctl restart postgresql
    ```
@@ -341,6 +362,7 @@ The server will start on port 8080 (or the port specified in your config).
 **Error:** `Error: listen EADDRINUSE :::8080`
 
 **Solution:** Kill the process using port 8080:
+
 ```bash
 # macOS/Linux
 lsof -ti:8080 | xargs kill -9
@@ -355,7 +377,9 @@ taskkill /PID <PID> /F
 **Error:** When running `pnpm install`
 
 **Solutions:**
+
 1. Clear cache:
+
    ```bash
    pnpm store prune
    pnpm install
@@ -371,6 +395,7 @@ taskkill /PID <PID> /F
 **Error:** `Cannot find package 'pg'`
 
 **Solution:** Reinstall dependencies with --no-frozen-lockfile:
+
 ```bash
 pnpm install --no-frozen-lockfile
 ```
@@ -380,6 +405,7 @@ pnpm install --no-frozen-lockfile
 **Error:** In browser console: `Failed to create note`
 
 **Solutions:**
+
 1. Check server console for detailed error
 2. Verify PostgreSQL is running
 3. Verify `.env` database credentials
@@ -388,6 +414,7 @@ pnpm install --no-frozen-lockfile
 ### Blank Page Loading
 
 **Solutions:**
+
 1. Hard refresh browser: `Ctrl+Shift+R` (Windows/Linux) or `Cmd+Shift+R` (macOS)
 2. Clear browser cache
 3. Check browser console (F12) for JavaScript errors
@@ -395,15 +422,15 @@ pnpm install --no-frozen-lockfile
 
 ## Environment Variables Reference
 
-| Variable | Purpose | Default | Example |
-|----------|---------|---------|---------|
-| `DB_HOST` | PostgreSQL host | - | `localhost` |
-| `DB_PORT` | PostgreSQL port | - | `5432` |
-| `DB_USER` | PostgreSQL username | - | `postgres` |
-| `DB_PASSWORD` | PostgreSQL password | - | `postgres` |
-| `DB_NAME` | Database name | - | `notes_hub` |
-| `VITE_API_BASE_URL` | Frontend API base URL | - | `http://localhost:8080` |
-| `PING_MESSAGE` | Ping endpoint response | `ping` | `pong` |
+| Variable            | Purpose                | Default | Example                 |
+| ------------------- | ---------------------- | ------- | ----------------------- |
+| `DB_HOST`           | PostgreSQL host        | -       | `localhost`             |
+| `DB_PORT`           | PostgreSQL port        | -       | `5432`                  |
+| `DB_USER`           | PostgreSQL username    | -       | `postgres`              |
+| `DB_PASSWORD`       | PostgreSQL password    | -       | `postgres`              |
+| `DB_NAME`           | Database name          | -       | `notes_hub`             |
+| `VITE_API_BASE_URL` | Frontend API base URL  | -       | `http://localhost:8080` |
+| `PING_MESSAGE`      | Ping endpoint response | `ping`  | `pong`                  |
 
 ## Next Steps
 
@@ -428,6 +455,7 @@ Once your setup is complete:
 ### Q: Can I use MySQL instead of PostgreSQL?
 
 A: The current setup uses PostgreSQL. To use MySQL, you would need to:
+
 1. Replace the `pg` package with `mysql2`
 2. Update the database initialization SQL syntax
 3. Update the connection string format
@@ -435,6 +463,7 @@ A: The current setup uses PostgreSQL. To use MySQL, you would need to:
 ### Q: How do I reset the database?
 
 A: To clear all notes:
+
 ```bash
 psql -U postgres -d notes_hub
 DROP TABLE IF EXISTS notes;
@@ -443,6 +472,7 @@ DROP TABLE IF EXISTS notes;
 ### Q: Can I deploy this to production?
 
 A: Yes! The setup is production-ready. For deployment:
+
 1. Use `pnpm build` to create optimized builds
 2. Set up PostgreSQL on your production server
 3. Update `.env` with production credentials
@@ -452,6 +482,7 @@ A: Yes! The setup is production-ready. For deployment:
 ### Q: What's the minimum hardware needed?
 
 A: Very minimal:
+
 - CPU: 1 core minimum
 - RAM: 512MB minimum (1GB recommended)
 - Disk: 100MB minimum

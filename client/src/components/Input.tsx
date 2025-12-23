@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -8,10 +8,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  (
-    { label, error, helperText, className = '', ...props },
-    ref
-  ) => {
+  ({ label, error, helperText, className = "", ...props }, ref) => {
     return (
       <motion.div
         className="w-full flex flex-col gap-1.5"
@@ -33,7 +30,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200
             transition-all duration-200 bg-white text-slate-900
             placeholder-slate-400 text-base
-            ${error ? 'border-red-500 focus:border-red-500 focus:ring-red-200' : ''}
+            ${error ? "border-red-500 focus:border-red-500 focus:ring-red-200" : ""}
             ${className}
           `}
           whileFocus={{ scale: 1.01 }}
@@ -51,15 +48,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         )}
 
         {helperText && !error && (
-          <span className="text-sm text-slate-500">
-            {helperText}
-          </span>
+          <span className="text-sm text-slate-500">{helperText}</span>
         )}
       </motion.div>
     );
-  }
+  },
 );
 
-Input.displayName = 'Input';
+Input.displayName = "Input";
 
 export default Input;

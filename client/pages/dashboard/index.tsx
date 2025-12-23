@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
-import { useNotesStore } from '@/store/notes.store';
-import { notesApi } from '@/services/notes.api';
-import NoteCard from '@/components/NoteCard';
-import Button from '@/components/Button';
-import Navbar from '@/components/Navbar';
-import Sidebar from '@/components/Sidebar';
-import { Trash2, Plus, AlertCircle } from 'lucide-react';
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { Link, useNavigate } from "react-router-dom";
+import { useNotesStore } from "@/store/notes.store";
+import { notesApi } from "@/services/notes.api";
+import NoteCard from "@/components/NoteCard";
+import Button from "@/components/Button";
+import Navbar from "@/components/Navbar";
+import Sidebar from "@/components/Sidebar";
+import { Trash2, Plus, AlertCircle } from "lucide-react";
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ const Dashboard: React.FC = () => {
       const data = await notesApi.fetchNotes();
       setNotes(data);
     } catch (err) {
-      setError('Failed to load notes. Please try again.');
+      setError("Failed to load notes. Please try again.");
       console.error(err);
     } finally {
       setLoading(false);
@@ -34,13 +34,13 @@ const Dashboard: React.FC = () => {
   };
 
   const handleDelete = async (id: string) => {
-    if (!window.confirm('Are you sure you want to delete this note?')) return;
+    if (!window.confirm("Are you sure you want to delete this note?")) return;
 
     try {
       await notesApi.deleteNote(id);
       deleteNote(id);
     } catch (err) {
-      setError('Failed to delete note.');
+      setError("Failed to delete note.");
       console.error(err);
     }
   };
@@ -77,7 +77,8 @@ const Dashboard: React.FC = () => {
               Your Notes
             </h1>
             <p className="text-slate-600">
-              {notes.length} {notes.length === 1 ? 'note' : 'notes'} in your collection
+              {notes.length} {notes.length === 1 ? "note" : "notes"} in your
+              collection
             </p>
           </div>
 
@@ -133,7 +134,8 @@ const Dashboard: React.FC = () => {
               No notes yet
             </h3>
             <p className="text-slate-600 mb-6 max-w-md mx-auto">
-              Create your first note to get started organizing your thoughts and ideas.
+              Create your first note to get started organizing your thoughts and
+              ideas.
             </p>
             <Link to="/notes/create">
               <Button size="lg">Create Your First Note</Button>

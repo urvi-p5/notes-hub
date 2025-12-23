@@ -1,8 +1,8 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Trash2, Edit2, Eye } from 'lucide-react';
-import { Note } from '@/types/note.types';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { motion } from "framer-motion";
+import { Trash2, Edit2, Eye } from "lucide-react";
+import { Note } from "@/types/note.types";
+import { Link } from "react-router-dom";
 
 interface NoteCardProps {
   note: Note;
@@ -19,18 +19,18 @@ const NoteCard: React.FC<NoteCardProps> = ({
 }) => {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
   const truncateContent = (content: string, maxLength: number = 150) => {
     return content.length > maxLength
-      ? content.substring(0, maxLength) + '...'
+      ? content.substring(0, maxLength) + "..."
       : content;
   };
 
@@ -40,7 +40,7 @@ const NoteCard: React.FC<NoteCardProps> = ({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.3 }}
-      whileHover={{ y: -4, boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)' }}
+      whileHover={{ y: -4, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)" }}
       className="bg-white rounded-xl border-2 border-slate-200 hover:border-blue-300 overflow-hidden transition-all duration-300"
     >
       {/* Card Content */}
@@ -62,10 +62,7 @@ const NoteCard: React.FC<NoteCardProps> = ({
 
         {/* Actions */}
         <div className="flex gap-2 pt-4 border-t border-slate-100">
-          <Link
-            to={`/notes/${note.id}`}
-            className="flex-1"
-          >
+          <Link to={`/notes/${note.id}`} className="flex-1">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

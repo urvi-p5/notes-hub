@@ -1,5 +1,5 @@
-import { create } from 'zustand';
-import { Note, CreateNoteInput, UpdateNoteInput } from '@/types/note.types';
+import { create } from "zustand";
+import { Note, CreateNoteInput, UpdateNoteInput } from "@/types/note.types";
 
 interface NotesStore {
   notes: Note[];
@@ -40,7 +40,7 @@ export const useNotesStore = create<NotesStore>((set) => ({
   updateNote: (id, updates) =>
     set((state) => ({
       notes: state.notes.map((note) =>
-        note.id === id ? { ...note, ...updates } : note
+        note.id === id ? { ...note, ...updates } : note,
       ),
       selectedNote:
         state.selectedNote?.id === id

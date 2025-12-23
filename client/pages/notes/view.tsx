@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import { useParams, useNavigate } from 'react-router-dom';
-import { notesApi } from '@/services/notes.api';
-import { useNotesStore } from '@/store/notes.store';
-import Button from '@/components/Button';
-import Navbar from '@/components/Navbar';
-import Sidebar from '@/components/Sidebar';
-import { ArrowLeft, Edit2, Trash2, AlertCircle } from 'lucide-react';
-import { Note } from '@/types/note.types';
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { useParams, useNavigate } from "react-router-dom";
+import { notesApi } from "@/services/notes.api";
+import { useNotesStore } from "@/store/notes.store";
+import Button from "@/components/Button";
+import Navbar from "@/components/Navbar";
+import Sidebar from "@/components/Sidebar";
+import { ArrowLeft, Edit2, Trash2, AlertCircle } from "lucide-react";
+import { Note } from "@/types/note.types";
 
 const ViewNote: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -17,11 +17,11 @@ const ViewNote: React.FC = () => {
 
   const [note, setNote] = useState<Note | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (!id) {
-      setError('Note ID not found');
+      setError("Note ID not found");
       setLoading(false);
       return;
     }
@@ -31,12 +31,12 @@ const ViewNote: React.FC = () => {
   const loadNote = async () => {
     if (!id) return;
     setLoading(true);
-    setError('');
+    setError("");
     try {
       const data = await notesApi.fetchNoteById(id);
       setNote(data);
     } catch (err) {
-      setError('Failed to load note. It may have been deleted.');
+      setError("Failed to load note. It may have been deleted.");
       console.error(err);
     } finally {
       setLoading(false);
@@ -44,28 +44,28 @@ const ViewNote: React.FC = () => {
   };
 
   const handleDelete = async () => {
-    if (!id || !window.confirm('Are you sure you want to delete this note?'))
+    if (!id || !window.confirm("Are you sure you want to delete this note?"))
       return;
 
     try {
       await notesApi.deleteNote(id);
       deleteNote(id);
-      navigate('/');
+      navigate("/");
     } catch (err) {
-      setError('Failed to delete note.');
+      setError("Failed to delete note.");
       console.error(err);
     }
   };
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
+    return date.toLocaleDateString("en-US", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
@@ -80,7 +80,7 @@ const ViewNote: React.FC = () => {
         <motion.button
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          onClick={() => navigate('/')}
+          onClick={() => navigate("/")}
           className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium mb-8 transition-colors"
         >
           <ArrowLeft size={20} />
@@ -152,11 +152,7 @@ const ViewNote: React.FC = () => {
                 <Edit2 size={18} />
                 Edit Note
               </Button>
-              <Button
-                variant="danger"
-                onClick={handleDelete}
-                className="gap-2"
-              >
+              <Button variant="danger" onClick={handleDelete} className="gap-2">
                 <Trash2 size={18} />
                 Delete Note
               </Button>

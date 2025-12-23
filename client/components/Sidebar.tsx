@@ -1,7 +1,7 @@
-import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { Plus, Home, X } from 'lucide-react';
+import React from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
+import { Plus, Home, X } from "lucide-react";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -12,13 +12,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   const menuItems = [
     {
       icon: Home,
-      label: 'Dashboard',
-      href: '/',
+      label: "Dashboard",
+      href: "/",
     },
     {
       icon: Plus,
-      label: 'Create Note',
-      href: '/notes/create',
+      label: "Create Note",
+      href: "/notes/create",
     },
   ];
 
@@ -40,7 +40,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             initial={{ x: -300 }}
             animate={{ x: 0 }}
             exit={{ x: -300 }}
-            transition={{ type: 'spring', damping: 20 }}
+            transition={{ type: "spring", damping: 20 }}
             className="fixed left-0 top-0 h-full w-64 bg-slate-50 shadow-xl z-50 md:hidden pt-20"
           >
             <div className="p-4 space-y-2">
@@ -56,11 +56,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
               {menuItems.map((item) => {
                 const Icon = item.icon;
                 return (
-                  <Link
-                    key={item.href}
-                    to={item.href}
-                    onClick={onClose}
-                  >
+                  <Link key={item.href} to={item.href} onClick={onClose}>
                     <motion.div
                       whileHover={{ x: 4 }}
                       className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-100 transition-colors cursor-pointer group"

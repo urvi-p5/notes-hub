@@ -1,15 +1,15 @@
-import { Pool, QueryResult } from 'pg';
+import { Pool, QueryResult } from "pg";
 
 const pool = new Pool({
-  user: process.env.DB_USER || 'postgres',
-  password: process.env.DB_PASSWORD || 'postgres',
-  host: process.env.DB_HOST || 'localhost',
-  port: parseInt(process.env.DB_PORT || '5432'),
-  database: process.env.DB_NAME || 'notes_hub',
+  user: process.env.DB_USER || "postgres",
+  password: process.env.DB_PASSWORD || "postgres",
+  host: process.env.DB_HOST || "localhost",
+  port: parseInt(process.env.DB_PORT || "5432"),
+  database: process.env.DB_NAME || "notes_hub",
 });
 
-pool.on('error', (err) => {
-  console.error('Unexpected error on idle client', err);
+pool.on("error", (err) => {
+  console.error("Unexpected error on idle client", err);
 });
 
 export const query = (text: string, params?: any[]): Promise<QueryResult> => {
@@ -36,9 +36,9 @@ export const initializeDatabase = async () => {
     `;
 
     await query(createTableQuery);
-    console.log('Database tables initialized successfully');
+    console.log("Database tables initialized successfully");
   } catch (error) {
-    console.error('Failed to initialize database:', error);
+    console.error("Failed to initialize database:", error);
     throw error;
   }
 };

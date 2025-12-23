@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-import { notesApi } from '@/services/notes.api';
-import { useNotesStore } from '@/store/notes.store';
-import { CreateNoteSchema } from '@/schemas/note.schema';
-import { ZodError } from 'zod';
-import Button from '@/components/Button';
-import Input from '@/components/Input';
-import Navbar from '@/components/Navbar';
-import Sidebar from '@/components/Sidebar';
-import { ArrowLeft, AlertCircle } from 'lucide-react';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import { notesApi } from "@/services/notes.api";
+import { useNotesStore } from "@/store/notes.store";
+import { CreateNoteSchema } from "@/schemas/note.schema";
+import { ZodError } from "zod";
+import Button from "@/components/Button";
+import Input from "@/components/Input";
+import Navbar from "@/components/Navbar";
+import Sidebar from "@/components/Sidebar";
+import { ArrowLeft, AlertCircle } from "lucide-react";
 
 interface FormErrors {
   title?: string;
@@ -22,15 +22,15 @@ const CreateNote: React.FC = () => {
   const { addNote } = useNotesStore();
 
   const [formData, setFormData] = useState({
-    title: '',
-    content: '',
+    title: "",
+    content: "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState('');
+  const [submitError, setSubmitError] = useState("");
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -42,7 +42,7 @@ const CreateNote: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitError('');
+    setSubmitError("");
     setErrors({});
 
     // Validate form
@@ -65,9 +65,9 @@ const CreateNote: React.FC = () => {
     try {
       const newNote = await notesApi.createNote(formData);
       addNote(newNote);
-      navigate('/');
+      navigate("/");
     } catch (err) {
-      setSubmitError('Failed to create note. Please try again.');
+      setSubmitError("Failed to create note. Please try again.");
       console.error(err);
     } finally {
       setIsSubmitting(false);
@@ -85,7 +85,7 @@ const CreateNote: React.FC = () => {
         <motion.button
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          onClick={() => navigate('/')}
+          onClick={() => navigate("/")}
           className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium mb-8 transition-colors"
         >
           <ArrowLeft size={20} />
@@ -101,9 +101,7 @@ const CreateNote: React.FC = () => {
           <h1 className="text-4xl font-bold text-slate-900 mb-2">
             Create a New Note
           </h1>
-          <p className="text-slate-600">
-            Start capturing your ideas right now
-          </p>
+          <p className="text-slate-600">Start capturing your ideas right now</p>
         </motion.div>
 
         {/* Form Card */}
@@ -158,7 +156,7 @@ const CreateNote: React.FC = () => {
                   focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200
                   transition-all duration-200 bg-white text-slate-900
                   placeholder-slate-400 text-base font-sans resize-none
-                  ${errors.content ? 'border-red-500 focus:border-red-500 focus:ring-red-200' : ''}
+                  ${errors.content ? "border-red-500 focus:border-red-500 focus:ring-red-200" : ""}
                 `}
                 whileFocus={{ scale: 1.01 }}
               />
@@ -179,7 +177,7 @@ const CreateNote: React.FC = () => {
                 type="button"
                 variant="outline"
                 size="lg"
-                onClick={() => navigate('/')}
+                onClick={() => navigate("/")}
                 className="flex-1"
               >
                 Cancel
