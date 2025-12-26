@@ -32,3 +32,12 @@ jobs:
         with:
           name: bundle-report
           path: dist/bundle-report.html
+
+      # --- ADDED LIGHTHOUSE CI STEPS ---
+      - name: Run Lighthouse CI
+        run: |
+          npm install -g @lhci/cli@0.13.x
+          lhci autorun
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }} # Optional: for PR status checks
+      # ---------------------------------
