@@ -26,5 +26,52 @@ jobs:
       - name: Run tests
         run: npm run test --if-present
 
-      - name: Build project
-        run: npm run build
+      - name: Build project with Webpack Bundle Analyzer
+        run: |
+          ANALYZE=true npm run build
+        env:
+          CI: true
+
+      - name: Check bundle size
+        id: size
+        run: |
+          # Run size-limit and capture output
+          OUTPUT=$(npx size-limit --json)
+          echo "$OUTPUT" > size-limit.json
+          # Extract summary for GitHub comment
+          BUNDLE_SUMMARY=$(echo "$OUTPUT" | jq -r '[.[] | "\(.name): \(.size / 1024 | round) KB (Limit: \(.limit / 1024 | round) KB) \(.isOverLimit|if . then "❌" else "✅" end)"] | join("\n")')
+          echo "BUNDLE_SUMMARY<<EOF" >> $GITHUB_ENV
+          echo "$BUNDLE_SUMMARY" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Run Lighthouse CI
+        id: lhci
+        run: |
+          npm run lhci:collect
+          npm run lhci:assert || true  # Don't fail immediately, capture results
+          # Save Lighthouse JSON for comment
+          cp .lighthouseci/last-run/*.report.json lhci-report.json
+
+      - name: Post PR comment with results
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const sizeSummary = process.env.BUNDLE_SUMMARY;
+
+            let lhciSummary = '';
+            if (fs.existsSync('lhci-report.json')) {
+              const report = JSON.parse(fs.readFileSync('lhci-report.json', 'utf8'));
+              const perfScore = Math.round(report.categories.performance.score * 100);
+              const accScore = Math.round(report.categories.accessibility.score * 100);
+              lhciSummary = `**Lighthouse Scores:**\n- Performance: ${perfScore}%\n- Accessibility: ${accScore}%`;
+            }
+
+            const commentBody = `### 📦 Bundle Size\n${sizeSummary}\n\n${lhciSummary}`;
+            
+            const prNumber = process.env.GITHUB_REF.match(/pull\/(\d+)\/merge/)[1];
+            await github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: prNumber,
+              body: commentBody
+            });
